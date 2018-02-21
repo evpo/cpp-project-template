@@ -8,6 +8,8 @@ This is a template for a C++ project. It's a good starting point. Download and s
     mv cpp-project-template-20180221 hello_world
     cd hello_world
     git init .
+    git add -A
+    git commit -m "initial commit"
 
 CLI:
 

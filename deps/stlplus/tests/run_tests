@@ -1,0 +1,36 @@
+#!/bin/sh
+# Regression test suite
+# Runs a set of tests on the STLplus components
+
+# make the current directory part of the link library search path
+export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH
+
+echo "##################################################"
+
+passed="0"
+failed="0"
+failed_names=""
+root=`pwd`
+for dir in *; do
+  if [ -d "$dir" ]; then
+    if [ "$dir" != "CVS" ] && [ "$dir" != "ide" ] && [ ! -f "$dir/.norun" ]; then
+      echo "### testing $dir"
+      cd "$dir"
+      time "./$dir"
+      if [ $? -ne 0 ] ; then
+        echo "### test of $dir failed"
+        failed=`expr $failed + 1`
+        failed_names="$failed_names $dir"
+      else
+        passed=`expr $passed + 1`
+      fi
+      echo "##################################################"
+      cd "$root"
+    fi
+  fi
+done
+
+echo "Passed : $passed"
+echo "Failed : $failed ($failed_names)"
+echo "##################################################"
+exit $failed

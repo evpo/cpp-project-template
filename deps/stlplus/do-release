@@ -1,0 +1,151 @@
+#!/bin/bash
+if [ $# -ne 0 ]; then
+  echo "$0: no arguments required, they are found automatically"
+  exit 1
+fi
+
+################################################################################
+# configuration
+
+# store the invoking directory because that is where the archive will be saved
+origin=$PWD
+# change to the release directory so that the generated file list is relative to the root
+dir=$(dirname $0)
+cd "$dir"
+
+# get the package name from the current directory
+package=$(basename $PWD)
+
+# get the version from the version.hpp header - filter for the value of the version macro definition
+version=$(grep '^\#define STLPLUS_VERSION' portability/version.hpp | sed -e "s|^\#define STLPLUS_VERSION ||" -e "s|\"||g")
+
+# split the version number at the first dot to give major and minor numbers
+# TODO - verify that they are numeric?
+major=`echo $version | cut -d . -f 1 -`
+minor=`echo $version | cut -s -d . -f 2 -`
+# test for any errors
+if [ \( -z "$major" \) -o \( -z "$minor" \) ]; then
+  echo "Error: must be a version number in the form x.y"
+  exit 1
+fi
+
+################################################################################
+# Check SVN status
+# Note: inlined from my svn-status script
+# can only release from a copy that is up to date with trunk - this is because I tag the release by copying the trunk
+
+# check that all is up to date and exit with an error if not
+echo -n "SVN: checking $package "
+tmpfile=$(mktemp)
+svn status -u > $tmpfile 2>&1
+if [ $? -ne 0 ]; then
+  echo " ERROR: Subversion failed to run"
+  exit 2
+else
+  # do the filtering if the command itself succeeded
+  # need to filter out the status against revision
+  # Note: bug in MinGW (I forgot to record which version had this bug) means I also get a warning from ssh
+  #       filter that too
+  greppedfile=$(mktemp)
+  grep -v -e "Status against revision" -e "setsockopt IP_TOS 8" < "$tmpfile" > "$greppedfile"
+  if [ -s "$greppedfile" ]; then
+    echo " PROBLEM:"
+    cat $greppedfile
+    echo "Error: fix the above problems before release"
+    exit 1
+  else
+    echo " OK"
+  fi
+fi
+
+################################################################################
+# Collect set of files to package and then gzip/zip them
+# inlined code from my 'release' script
+
+# function to perform the recursive selection of releasable items
+package_file=.package
+function get_files()
+{
+  local dir=$1
+  if [ ! -f "$dir/$package_file" ]; then
+    echo "error: no package file $dir/$package_file" 1>&2
+    return 1
+  fi
+  local error=0
+  # fix for missing last newline
+  # https://stackoverflow.com/questions/15485555/read-last-line-of-file-in-bash-script-when-reading-file-line-by-line
+  while read line || [[ -n "$line" ]]; do 
+    # skip empty lines
+    if [ -n "$line" ]; then
+      glob=$dir/$line
+      [ "$debug" == "1" ] && echo "glob = $glob" 1>&2
+      # glob expand this entry and insist it matches at least one entry
+      local count=0
+      for entry in $(set +f; ls -1d "$dir/"$line; set -f); do
+        [ "$debug" == "1" ] && echo "entry = $entry" 1>&2
+        count=1
+        if [ -f "$entry" ]; then
+          echo "$entry"
+        elif [ -d "$entry" ]; then
+          get_files $entry
+          if [ $? -ne 0 ]; then
+            error=1
+          fi
+        else
+          echo "error: missing entry $entry" 1>&2
+          error=1
+        fi
+      done
+      if [ $count -eq 0 ]; then
+        echo "error: entry $glob has no matches" 1>&2
+        error=1
+      fi
+    fi
+  done < "$dir/$package_file"
+  return $error
+}
+
+# generate a temporary file and call the recursive walk function to capture the file list one filename per line
+file_list=$(mktemp)
+# allow filenames and directories to contain spaces, split only on line endings
+# Note: uses bash-specific $'' to expand the escape sequence
+IFS=$'\n\r'
+get_files . > "$file_list"
+if [ $? -ne 0 ]; then
+  echo "error: cannot release this package because of errors" 1>&2
+  exit 2
+fi
+
+echo "#### Releasing $package version $version"
+
+release_name=$(printf "%s-%02i-%02i" "$package" "$major" "$minor")
+echo "creating $origin/$release_name.tar.gz"
+tar -c -z -f "$origin/$release_name.tar.gz" -T "$file_list"
+echo "creating $origin/$release_name.zip"
+zip -q -@ "$origin/$release_name.zip" < "$file_list"
+
+################################################################################
+# SVN tag the repository with the release name
+# inlined version of my svn-tag script
+
+echo "SVN: tagging $package with $release_name"
+# Tagging in SVN is done by copying the trunk to the tag, all done remotely on the server
+# get the root URL of the stlplus3 repository
+root=$(svn info --show-item repos-root-url)
+# get the source repository location of the current checked-out version - it may not be trunk
+source=$(svn info --show-item url)
+# need to delete this tag if it exists, otherwise the copy fails
+# don't do this every time - it is a good check whether the version has been updated
+# TODO - add a switch to force this?
+#svn delete -m "Deleted tag $release_name" "$root/tags/$release_name"
+# now do the copy from the source to the tag - this works correctly even if the source is not the trunk
+if ! svn copy -m "Release tag $release_name" "$source" "$root/tags/$release_name"; then
+  echo "Error: SVN tag failed"
+  echo "Note: it might have failed because the tag already exists, in which case run:"
+  echo "  svn delete -m \"Deleting tag $release_name ready for re-release\" $root/tags/$release_name"
+  exit 1
+fi
+
+################################################################################
+echo "#### SUCCESS: Released $package version $version"
+

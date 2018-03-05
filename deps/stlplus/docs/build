@@ -1,0 +1,17 @@
+#!/bin/sh
+################################################################################
+# utility for building colourised HTML from the headers
+for d in containers persistence portability strings subsystems; do
+  for f in ../$d/*.hpp; do
+    hpp_file=$f
+    html_file=`basename $hpp_file .hpp`_hpp.html
+    if [ "$hpp_file" -nt "$html_file" ]; then
+      title=`basename \`dirname "$hpp_file"\``/`basename $hpp_file`
+      cpp2html -j shCore.js -j shBrushCpp.js \
+        -r "SyntaxHighlighter.defaults['toolbar']=false; SyntaxHighlighter.all()" \
+        -s shCore.css -s shThemeSTLplus.css \
+        -c "brush: cpp" -t "$title" \
+        "$hpp_file" "$html_file"
+    fi
+  done
+done

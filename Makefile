@@ -1,18 +1,18 @@
 .PHONY: src tests cli gtest
-all:: src cli
-gtest::
+all: src cli
+gtest:
 	$(MAKE) -C tests -f Makefile.gtest RELEASE=$(RELEASE)
 
-tests:: gtest src
+tests: gtest src
 	$(MAKE) -C tests RELEASE=$(RELEASE)
 
-cli:: src
+cli: src
 	$(MAKE) -C cli RELEASE=$(RELEASE)
 
-src::
+src:
 	$(MAKE) -C src RELEASE=$(RELEASE)
 
-clean::
+clean:
 	$(MAKE) -C tests -f Makefile.gtest clean RELEASE=$(RELEASE)
 	$(MAKE) -C tests clean RELEASE=$(RELEASE)
 	$(MAKE) -C cli clean RELEASE=$(RELEASE)

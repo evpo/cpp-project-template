@@ -1,4 +1,4 @@
-.PHONY: src tests cli gtest
+.PHONY: src tests cli gtest deps
 all: src cli
 gtest:
 	$(MAKE) -C tests -f Makefile.gtest RELEASE=$(RELEASE)
@@ -6,8 +6,12 @@ gtest:
 tests: gtest src
 	$(MAKE) -C tests RELEASE=$(RELEASE)
 
-cli: src
+cli: src deps
 	$(MAKE) -C cli RELEASE=$(RELEASE)
+
+deps:
+	$(MAKE) -C deps/stlplus/subsystems
+	$(MAKE) -C deps/stlplus/portability
 
 src:
 	$(MAKE) -C src RELEASE=$(RELEASE)

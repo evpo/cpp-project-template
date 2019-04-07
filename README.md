@@ -4,8 +4,8 @@
 
 This is a template for a C++ project. It's a good starting point. Download and start hacking.
 
-    wget -O - https://github.com/evpo/cpp-project-template/archive/v20190407.tar.gz | tar xzvf -
-    mv cpp-project-template-* hello_world
+    wget -O - https://github.com/evpo/cpp-project-template/archive/master.tar.gz | tar xzvf -
+    mv cpp-project-template-master hello_world
     cd hello_world
     git init .
     git add -A

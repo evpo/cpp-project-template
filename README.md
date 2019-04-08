@@ -62,6 +62,7 @@ Unit tests:
 ## System requirements
 
     Linux
+    macOS
     Mingw
     C++11 g++ or clang
 

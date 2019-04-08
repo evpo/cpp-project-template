@@ -1,8 +1,8 @@
 [![Build Status](https://travis-ci.org/evpo/cpp-project-template.svg?branch=master)](https://travis-ci.org/evpo/cpp-project-template)
 
-# Project template
+# C++ Project template
 
-This is a template for a C++ project. It's a good starting point. Download and start hacking.
+This is a template for a C++ project. It's a good starting point for a tool or proof of concept. Download and start hacking.
 
     wget -O - https://github.com/evpo/cpp-project-template/archive/master.tar.gz | tar xzvf -
     mv cpp-project-template-master hello_world

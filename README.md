@@ -18,7 +18,7 @@ You can also use [this script](https://github.com/evpo/scriptocracy/blob/master/
 * Help and command line parameters
 * Simple to understand makefile build
 * CLI front-end and a back-end library
-* Diagnostics logging
+* Diagnostic logging
 * Unit tests
 * Multiplatform: Linux, Windows, macOS
 * Almost no dependencies

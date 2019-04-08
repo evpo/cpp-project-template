@@ -13,6 +13,16 @@ This is a template for a C++ project. It's a good starting point. Download and s
 
 You can also use [this script](https://github.com/evpo/scriptocracy/blob/master/scripts/create-cpp-project.sh) to automate new projects.
 
+## Features
+
+* Help and command line parameters
+* Simple to understand build system
+* CLI front-end and a back-end library
+* Diagnostic logging
+* Unit tests
+* Multiplatform: Linux, Windows, macOS
+* Almost no dependencies
+
 ## Demo
 
 [![asciicast](https://asciinema.org/a/239383.png)](https://asciinema.org/a/239383?speed=2&theme=solarized-dark)

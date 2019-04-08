@@ -13,19 +13,9 @@ This is a template for a C++ project. It's a good starting point. Download and s
 
 You can also use [this script](https://github.com/evpo/scriptocracy/blob/master/scripts/create-cpp-project.sh) to automate new projects.
 
-CLI:
+## Demo
 
-    ./bin/debug/cpp-project
-
-Unit tests:
-
-    ./bin/debug/cpp-project-tests
-
-## System requirements
-
-    Linux
-    Mingw
-    C++11 g++ or clang
+[![asciicast](https://asciinema.org/a/239383.png)](https://asciinema.org/a/239383?speed=2&theme=solarized-dark)
 
 ## Compile
 
@@ -49,6 +39,23 @@ Tests:
 
     make tests
     
+## Run
+
+CLI:
+
+    ./bin/debug/cpp-project
+
+Unit tests:
+
+    ./bin/debug/cpp-project-tests
+
+## System requirements
+
+    Linux
+    Mingw
+    C++11 g++ or clang
+
+
 ## Acknowledgments
 
 1. [stlplus](http://stlplus.sourceforge.net/)

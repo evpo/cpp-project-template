@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/evpo/cpp-project-template.svg?branch=master)](https://travis-ci.org/evpo/cpp-project-template)
 
-# C++ Project template
+# C++ Project Template
 
 This is a template for your new C++ project. It's a good starting point for a tool or proof of concept. Download and start hacking.
 

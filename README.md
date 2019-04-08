@@ -16,9 +16,9 @@ You can also use [this script](https://github.com/evpo/scriptocracy/blob/master/
 ## Features
 
 * Help and command line parameters
-* Simple to understand build system
+* Simple to understand makefile build
 * CLI front-end and a back-end library
-* Diagnostic logging
+* Diagnostics logging
 * Unit tests
 * Multiplatform: Linux, Windows, macOS
 * Almost no dependencies

@@ -11,7 +11,7 @@ This is a template for your new C++ project. It's a good starting point for a to
     git add -A
     git commit -m "initial commit"
 
-You can also use [this script](https://github.com/evpo/scriptocracy/blob/master/scripts/create-cpp-project.sh) to automate new projects.
+You can also use [this script](https://github.com/evpo/scriptocracy/blob/master/scripts/create-cpp-project.sh) to automate creation of new projects.
 
 ## Features
 

@@ -26,33 +26,29 @@ namespace CppProject
 
 int main(int, char *argv[])
 {
-    cli_definitions_t cli_defs = {
+    cli_definitions cli_defs = {
         {
             "help",
             cli_kind_t::cli_switch_kind,
             cli_mode_t::cli_single_mode,
             "help",
-            ""
         },
         {
             "log",
             cli_kind_t::cli_value_kind,
             cli_mode_t::cli_single_mode,
             "log",
-            ""
         },
         {
             "",
             cli_kind_t::cli_value_kind,
             cli_mode_t::cli_single_mode,
             "name",
-            ""
         },
-        END_CLI_DEFINITIONS,
     };
 
     message_handler messages(std::cerr);
-    cli_parser parser(&cli_defs[0], messages);
+    cli_parser parser(cli_defs, messages);
     if(!parser.parse(argv))
     {
         PrintUsage();

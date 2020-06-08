@@ -16,9 +16,14 @@ namespace CppProject
     {
         const char *usage =
             VER_PRODUCTNAME_STR " " VER_PRODUCTVERSION_STR "\n"
-            "\n"
-            "Usage: cpp-project --help | <user_name>\n"
-            "c++ project that outputs Hello World\n";
+R"(
+Usage: cpp-project --help | <user_name>
+c++ project that outputs Hello World
+Commands:
+    --help                  output this help message
+Options:
+    --log <LOG_FILE>        the log file to output diagnostic messages
+)";
 
         std::cout << usage << std::endl;
     }

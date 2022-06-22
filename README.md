@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/evpo/cpp-project-template.svg?branch=master)](https://travis-ci.org/evpo/cpp-project-template)
-
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/evpo/cpp-project-template/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/evpo/cpp-project-template/tree/master)
 # C++ Project Template
 
 This is a template for your new C++ project. It's a good starting point for a tool or proof of concept. Download and start hacking.

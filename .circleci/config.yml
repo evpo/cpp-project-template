@@ -1,0 +1,120 @@
+# Use, modification, and distribution are
+# subject to the Boost Software License, Version 1.0. (See accompanying
+# file LICENSE.txt)
+#
+# Copyright René Ferdinand Rivera Morell 2020-2021.
+
+# Configuration for https://circleci.com/.
+
+version: 2.1
+orbs:
+  win: circleci/windows@2.4.0
+  macos: circleci/macos@2.2.0
+jobs:
+  macos-job:
+    macos:
+      xcode: 13.4.1
+    environment:
+      # CC: /usr/local/opt/llvm/bin/clang
+      # CXX: /usr/local/opt/llvm/bin/clang++
+      CC: clang
+      CXX: clang++
+      CXXFLAGS: -stdlib=libc++
+    steps:
+      - checkout
+      - run: brew install cmake ninja pkg-config llvm@13
+      - run: make
+      - run: bin/debug/cpp-project
+      - run: make tests
+      - run: bin/debug/cpp-project-tests
+
+  windows-job:
+    executor:
+      name: win/default
+      shell: powershell.exe
+    steps:
+      - checkout
+      - run:
+          name: "Installing g++"
+          command: 'choco install mingw'
+      - run:
+          name: "Compiling Code"
+          command: 'mingw32-make'
+      - run:
+          name: "Run"
+          command: './bin/debug/cpp-project'
+      - run:
+          name: "Compile tests"
+          command: "mingw32-make tests"
+      - run:
+          name: "Run tests"
+          command: "./bin/debug/cpp-project-tests"
+
+  # This defines a common parameterized job template function. This is used
+  # in the workflows to stamp out the install and compile steps for each
+  # job variation.
+  linux-job:
+    parameters:
+      # The, optional, Linux OS image to run in.
+      image: { default: "cimg/base:stable-18.04", type: string }
+      # The, optional, LLVM OS to obtain clang builds for. This needs to
+      # match the Linux OS image.
+      llvm_os: { default: "", type: string }
+      # The version of LLVM to get the package for.
+      llvm_ver: { default: "", type: string }
+      # The compiler executable name to use. The default value of "c++" is
+      # only useful for system default compilers.
+      cxx: { default: "c++", type: string }
+      # Custom options to use for compiling.
+      cxxflags: { default: "", type: string }
+      # APT packages from LLVM_REPO to install for the compiler.
+      packages: { default: "", type: string }
+    docker:
+      - image: << parameters.image >>
+    environment:
+      LLVM_OS: << parameters.llvm_os >>
+      LLVM_VER: << parameters.llvm_ver >>
+      CXX: << parameters.cxx >>
+      CXXFLAGS: << parameters.cxxflags >>
+      PACKAGES: << parameters.packages >>
+    steps:
+      # Circle CI has a separate checkout step for the repo.
+      - checkout
+      # Install toolset from apt.
+      - run:
+          name: Install Toolset
+          command: |
+            set -e
+            uname -a
+            ./.ci_playground/linux-cxx-install.sh
+      # Version info and test compile.
+      - run:
+          name: Compile
+          command: |
+            set -e
+            ${CXX} --version
+            make
+      - run:
+          name: Run
+          command: |
+            set -e
+            bin/debug/cpp-project
+      - run:
+          name: Compile tests
+          command: |
+            set -e
+            make tests
+      - run:
+          name: Run tests
+          command: |
+            set -e
+            bin/debug/cpp-project-tests
+# We only have one workflow in the set as we only have the single task of
+# running the same install+compile job in different environments. And hence
+# no need for dependency specification between jobs.
+workflows:
+  workflow:
+    jobs:
+      - linux-job: { name: 'Linux GCC 9', cxx: g++-9, packages: g++-9 }
+      - windows-job
+      - macos-job

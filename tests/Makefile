@@ -1,8 +1,14 @@
 include ../deps/makefiles/platform.mak
 
 LIBRARIES += ../src
+
+ifeq ($(PLATFORM),MACOS)
+LDFLAGS += -Wl,-all_load
+LDLIBS += -Wl,-noall_load
+else
 LDFLAGS += -Wl,--whole-archive
 LDLIBS += -Wl,--no-whole-archive
+endif
 
 ifeq ($(RELEASE),on)
 CXXFLAGS += -ggdb

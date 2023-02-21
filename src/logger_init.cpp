@@ -3,9 +3,11 @@
 
 namespace CppProject
 {
-    void InitLogger(const std::string &file_name)
-    {
-        plog::init(plog::debug, file_name.data());
-        LOG_INFO << "Log instance started";
-    }
+
+void InitLogger(const std::string &file_name)
+{
+    plog::init(plog::debug, file_name.data());
+    LOG_INFO << "Log instance started";
+}
+
 }

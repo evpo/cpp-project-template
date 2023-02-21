@@ -3,9 +3,11 @@
 
 namespace CppProject
 {
-    std::string GenerateHelloName(const std::string &name)
-    {
-        LOG_DEBUG << "Name = " << name;
-        return "Hello World and " + name;
-    }
+
+std::string GenerateHelloName(const std::string &name)
+{
+    LOG_DEBUG << "Name = " << name;
+    return "Hello World and " + name;
+}
+
 }

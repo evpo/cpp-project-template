@@ -6,10 +6,8 @@ ifeq ($(RELEASE),on)
 CXXFLAGS += -ggdb
 endif
 
-CXXFLAGS += -Wall -Wextra -std=c++11
+CXXFLAGS += -Wall -Wextra -std=c++17
 CXXFLAGS += -I../include -I../deps/plog/include
-LDFLAGS += -Wall
-LOADLIBES += -lm
 
 ifeq ($(RELEASE),on)
 TARGETDIR := ../../bin/release

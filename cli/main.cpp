@@ -12,21 +12,23 @@ using namespace CppProject;
 
 namespace CppProject
 {
-    void PrintUsage()
-    {
-        const char *usage =
-            VER_PRODUCTNAME_STR " " VER_PRODUCTVERSION_STR "\n"
+
+void PrintUsage()
+{
+    const char *usage =
+        VER_PRODUCTNAME_STR " " VER_PRODUCTVERSION_STR "\n"
 R"(
 Usage: cpp-project --help | <user_name>
 c++ project that outputs Hello World
 Commands:
-    --help                  output this help message
+--help                  output this help message
 Options:
-    --log <LOG_FILE>        the log file to output diagnostic messages
+--log <LOG_FILE>        the log file to output diagnostic messages
 )";
 
-        std::cout << usage << std::endl;
-    }
+    std::cout << usage << std::endl;
+}
+
 }
 
 int main(int, char *argv[])

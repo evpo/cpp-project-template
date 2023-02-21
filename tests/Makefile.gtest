@@ -6,7 +6,7 @@ MKDIR_P := mkdir -p
 # Flags passed to the preprocessor.
 # Set Google Test's header directory as a system directory, such that
 # the compiler doesn't generate warnings in Google Test headers.
-CPPFLAGS += -isystem $(GTEST_DIR)/include -std=c++11
+CPPFLAGS += -isystem $(GTEST_DIR)/include -std=c++17
 
 # Flags passed to the C++ compiler.
 CXXFLAGS += -g -pthread

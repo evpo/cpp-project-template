@@ -3,5 +3,7 @@
 
 namespace CppProject
 {
-    void InitLogger(const std::string &file_name);
+
+void InitLogger(const std::string &file_name);
+
 }

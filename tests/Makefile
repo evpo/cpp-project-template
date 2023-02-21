@@ -15,10 +15,9 @@ CXXFLAGS += -ggdb
 endif
 
 LDLIBS += ../deps/gtest/googletest/build/libgtest.a -lpthread -lm
-CXXFLAGS += -I../deps/gtest/googletest/include -pthread -std=c++11 -Wall -Wextra
+CXXFLAGS += -Wall -Wextra -std=c++17
+CXXFLAGS += -I../deps/gtest/googletest/include -pthread
 CXXFLAGS += -I../include -I../include/internal -I../deps/stlplus/containers -I../deps/plog/include
-
-LDFLAGS += -Wall
 
 ifeq ($(RELEASE),on)
 TARGETDIR := ../../bin/release

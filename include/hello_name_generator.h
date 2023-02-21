@@ -3,5 +3,7 @@
 
 namespace CppProject
 {
-    std::string GenerateHelloName(const std::string &name);
+
+std::string GenerateHelloName(const std::string &name);
+
 }

@@ -1,0 +1,15 @@
+-I /home/mk7/work/lab/cpp-project-template/deps/gtest/googletest
+-I /home/mk7/work/lab/cpp-project-template/deps/gtest/googletest/include
+-I /home/mk7/work/lab/cpp-project-template/cli
+-I /home/mk7/work/lab/cpp-project-template/deps/plog/include
+-I /home/mk7/work/lab/cpp-project-template/deps/stlplus/containers
+-I /home/mk7/work/lab/cpp-project-template/deps/stlplus/portability
+-I /home/mk7/work/lab/cpp-project-template/deps/stlplus/subsystems
+-I /home/mk7/work/lab/cpp-project-template/include
+-I /home/mk7/work/lab/cpp-project-template/include/internal
+-I /home/mk7/work/lab/cpp-project-template/src
+-I /home/mk7/work/lab/cpp-project-template/tests
+-std=c++17
+-x c++
+-w
+-D GNULINUX

@@ -1,4 +1,4 @@
-.PHONY: src tests cli gtest deps clean all distclean
+.PHONY: src tests cli gtest deps clean all distclean run
 all: src cli
 gtest:
 	$(MAKE) -C tests -f Makefile.gtest RELEASE=$(RELEASE)
@@ -24,3 +24,10 @@ clean:
 
 distclean : clean
 	$(MAKE) -C deps/stlplus clean RELEASE=$(RELEASE)
+
+run: src cli
+ifeq ($(RELEASE),on)
+	bin/release/cpp-project
+else
+	bin/debug/cpp-project
+endif

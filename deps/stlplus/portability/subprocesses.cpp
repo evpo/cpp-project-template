@@ -1467,11 +1467,12 @@ namespace stlplus
 
   async_subprocess::~async_subprocess(void)
   {
+    // moved out of the if because it leaks the pipes if we do not close them
+    close_stdin();
+    close_stdout();
+    close_stderr();
     if (m_pid != -1)
     {
-      close_stdin();
-      close_stdout();
-      close_stderr();
       kill();
       for (;;)
       {

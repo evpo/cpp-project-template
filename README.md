@@ -24,7 +24,7 @@ You can also use [this script](https://github.com/evpo/scriptocracy/blob/master/
 
 ## Demo
 
-[![asciicast](https://asciinema.org/a/239383.png)](https://asciinema.org/a/239383?speed=2&theme=solarized-dark)
+[![asciicast](https://asciinema.org/a/239383.svg)](https://asciinema.org/a/239383)
 
 ## Compile
 
@@ -63,7 +63,7 @@ Unit tests:
     Linux
     macOS
     Mingw
-    C++11 g++ or clang
+    C++17 g++ or clang
 
 
 ## Acknowledgments

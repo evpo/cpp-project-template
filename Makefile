@@ -1,4 +1,9 @@
 .PHONY: src tests cli gtest deps clean all distclean run
+CXXFLAGS += -std=c++20
+export CXXFLAGS
+# uncomment to support the preferred compiler
+# CXX := clang++
+# export CXX
 all: src cli
 gtest:
 	$(MAKE) -C tests -f Makefile.gtest RELEASE=$(RELEASE)

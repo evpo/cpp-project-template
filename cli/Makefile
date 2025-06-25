@@ -6,7 +6,7 @@ ifeq ($(RELEASE),on)
 CXXFLAGS += -ggdb
 endif
 
-CXXFLAGS += -Wall -Wextra -std=c++17
+CXXFLAGS += -Wall -Wextra
 CXXFLAGS += -I../include -I../deps/plog/include
 
 ifeq ($(RELEASE),on)

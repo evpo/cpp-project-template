@@ -9,7 +9,7 @@
 -I ./include/internal
 -I ./src
 -I ./tests
--std=c++17
+-std=c++20
 -x c++
 -w
 -D GNULINUX
